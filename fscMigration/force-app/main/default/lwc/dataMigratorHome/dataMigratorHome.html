@@ -1,7 +1,7 @@
 <template>
-      <lightning-card>
-         <!-- <lightning-button label="New" slot="actions"></lightning-button> -->
-          <div class="slds-p-horizontal_small slds-list_horizontal" style="height: 45vh;">
+      <article class="slds-card">
+      <div class="slds-card__body slds-card__body_inner" style="padding-top: .5rem">
+            <div class="slds-list_horizontal" style="height: 45vh;">
 
                   <div class="demo-only slds-box " style="width:20%;background-color:#FAFAFB;margin-top: 6px;margin-right: 4px;margin-bottom: 4px;margin-left: 4px;">
                      <nav class="slds-nav-vertical slds-nav-vertical_shade" aria-label="Sub page">
@@ -59,11 +59,12 @@
                         <div class="slds-backdrop slds-backdrop_open"></div>
                      </template>
          </div>
-          <p slot="footer">
-               <lightning-button-group>
-                     <lightning-button label="Previous"></lightning-button>
-                     <lightning-button label="Next"></lightning-button>
-                 </lightning-button-group>
-          </p>
-      </lightning-card>
+      </div>
+      <footer class="slds-card__footer">
+            <lightning-button-group>
+                  <lightning-button label="Previous"></lightning-button>
+                  <lightning-button label="Next"></lightning-button>
+            </lightning-button-group>
+      </footer>
+      </article>
 </template>

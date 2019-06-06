@@ -1,3 +1,3 @@
-.hide-title > header.slds-card__header {
-    display: none;
+.customCardClass > header.slds-card__header.slds-grid{
+    padding-top:0px;
 }
