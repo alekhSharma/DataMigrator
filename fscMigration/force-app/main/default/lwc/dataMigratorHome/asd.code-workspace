@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "D:\\DX\\fscMigration\\fscMigration\\.sfdx"
+		},
+		{
+			"path": "D:\\DX\\fscMigration\\fscMigration\\.vscode"
+		},
+		{
+			"path": "D:\\DX\\fscMigration\\fscMigration\\config"
+		},
+		{
+			"path": "D:\\DX\\fscMigration\\fscMigration\\force-app"
+		},
+		{
+			"path": "D:\\DX\\fscMigration\\fscMigration\\manifest"
+		}
+	]
+}
