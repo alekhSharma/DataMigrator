@@ -21,7 +21,7 @@ public static string migrateObjectDataInFSC(String objectName ,String FieldsName
 //list<account> acc=[select id,name from Account limit 4];
 
     String fetchRecords ='Select'+FieldsName+'From'+ objectName;
-    List<sObject> sobjList = Database.query(fetchRecords)
+    List<sObject> sobjList = Database.query(fetchRecords);
     String a=json.serialize(sobjList);
     
     List<oldid> oldids=(List<oldid>)(JSON.deserialize(a, List<oldid>.class));
@@ -51,7 +51,7 @@ public static string migrateObjectDataInFSC(String objectName ,String FieldsName
 
     @AuraEnabled
     public static String createObjectDataInFSC(string recordsinjson){
-        
+
    			 String returnString;
         	 String clientId = '3MVG9d8..z.hDcPID9ny647qfnddsy2pzgWIMPmTm4WtechJ3U1f5XRV7MVdiKeEesmBW81iLO_aHKe3Y4tTb';
    			 String clientSecret = 'DCCD277119170B8B4EE6059AB174483BD6807F6062998FF2857366E356A83DCB';
