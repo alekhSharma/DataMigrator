@@ -46,20 +46,21 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
-    <enableHistory>true</enableHistory>
+    <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>SalesforceOrg</label>
+    <label>Batch Transaction Detail</label>
     <nameField>
-        <label>SalesforceOrg Name</label>
-        <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <displayFormat>Batch-{0000}</displayFormat>
+        <label>Batch Transaction Detail Name</label>
+        <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>SalesforceOrg</pluralLabel>
+    <pluralLabel>Batch Transaction Details</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
     <visibility>Public</visibility>
 </CustomObject>
