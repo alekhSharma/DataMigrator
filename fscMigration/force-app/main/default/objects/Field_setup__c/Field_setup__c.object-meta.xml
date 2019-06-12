@@ -46,19 +46,18 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
-    <enableHistory>true</enableHistory>
+    <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>SalesforceOrg</label>
+    <label>Field setup</label>
     <nameField>
-        <label>SalesforceOrg Name</label>
-        <trackHistory>false</trackHistory>
+        <label>Source Field Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>SalesforceOrg</pluralLabel>
+    <pluralLabel>Field setups</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
