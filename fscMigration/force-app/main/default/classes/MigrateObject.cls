@@ -16,7 +16,7 @@ public with sharing class MigrateObject {
 
 
 @AuraEnabled
-public static string migrateObjectDataInFSC(String objectName ,String FieldsName){
+public static void migrateObjectDataInFSC(String objectName ,String FieldsName){
 // REST JSON INsert to Another ORG
 //list<account> acc=[select id,name from Account limit 4];
 
