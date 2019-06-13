@@ -1,12 +1,12 @@
-public with sharing class BatchMigrateObject implements Database.Batchable<sObject> {
+global with sharing class BatchMigrateObject implements Database.Batchable<sObject> {
     String objectsetupname;
     String query;
     String authId;
     
-    public BatchMigrateObject(String objectName,String fieldName, String authId,String objectsetupname) {
+    global BatchMigrateObject(String objectName,String fieldName, String authId,String objectsetupname) {
         objectsetupname=this.objectsetupname;
         authId=this.authId;
-        query='SELECT'+this.fieldName+'FROM'+this.objectName;
+        query='SELECT'+fieldName+'FROM'+objectName;
 
     }
 
@@ -19,6 +19,15 @@ public with sharing class BatchMigrateObject implements Database.Batchable<sObje
    }
 
    global void finish(Database.BatchableContext BC){
+      AsyncApexJob a = [Select a.TotalJobItems, a.NumberOfErrors,a.JobItemsProcessed From AsyncApexJob a WHERE id = :BC.getJobId()];
+      Batch_Transaction_Detail__c newBatch=new Batch_Transaction_Detail__c();
+      newBatch.Batch_Failed__c= a.NumberOfErrors;
+      newBatch.Batch_Id__c=BC.getJobId();
+      newBatch.Batch_Success__c=a.JobItemsProcessed;
+      newBatch.Object_setup_name__c=objectsetupname;
+      newBatch.Total_Batch__c=a.TotalJobItems;
+
+      insert newBatch;
 
    }
 
