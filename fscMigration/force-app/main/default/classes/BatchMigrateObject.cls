@@ -4,9 +4,9 @@ global with sharing class BatchMigrateObject implements Database.Batchable<sObje
     String authId;
     
     global BatchMigrateObject(String objectName,String fieldName, String authId,String objectsetupname) {
-        objectsetupname=this.objectsetupname;
-        authId=this.authId;
-        query='SELECT'+fieldName+'FROM'+objectName;
+        this.objectsetupname=objectsetupname;
+        this.authId=authId;
+        this.query='SELECT'+fieldName+'FROM'+objectName;
 
     }
 
