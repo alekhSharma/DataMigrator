@@ -16,7 +16,7 @@ public with sharing class MigrateObject {
 
 
 @AuraEnabled
-public static void migrateObjectDataInFSC(List<sObject> sobjList ,String authId,String objectsetupname){
+public static void migrateObjectDataInFSC(List<sObject> sobjList ,String authId,String objectsetupname, Map<String,String> fieldobjectmap){
 // REST JSON INsert to Another ORG
 //list<account> acc=[select id,name from Account limit 4];
 //String fetchRecords ='Select'+FieldsName+'From'+ objectName;
@@ -29,8 +29,15 @@ public static void migrateObjectDataInFSC(List<sObject> sobjList ,String authId,
     jsonResult=jsonResult.replaceAll('"url"', '"referenceId"');
     jsonResult=jsonResult.replaceAll('"Id":"[0-9a-zA-Z]{18}",','');
     jsonResult=jsonResult.replaceAll(',"CurrencyIsoCode":"INR"','');
+    
+    for(String sourcefield :fieldobjectmap.keyset()){
+        string s='"'+sourcefield+'"';
+        string d='"'+fieldobjectmap.get(sourcefield)+'"';
+        jsonResult=jsonResult.replaceAll(s,d);
+    }
+
     system.debug(jsonResult);
-   List<newid> newids=(List<newid>)(JSON.deserialize(MigrateObject.createObjectDataInFSC(jsonResult,authId), List<newid>.class));
+    List<newid> newids=(List<newid>)(JSON.deserialize(MigrateObject.createObjectDataInFSC(jsonResult,authId), List<newid>.class));
     system.debug(newids);
     List<Manage_Id__c> oldnewList=new List<Manage_Id__c>();
     //Map<String,String> oldnew=new Map<String,String>();
@@ -38,6 +45,7 @@ public static void migrateObjectDataInFSC(List<sObject> sobjList ,String authId,
     for(Integer i=0 ;i<oldids.size(); i++){
     if(newids[i].success==true){
          //oldnew.put(oldids[i].id,newids[i].id);
+         oldnewList[i]=new Manage_Id__c();
          oldnewList[i].Old_id__c=oldids[i].id;
          oldnewList[i].New_id__c=newids[i].id;
          oldnewList[i].Object_setup_name__c=objectsetupname;
@@ -45,6 +53,7 @@ public static void migrateObjectDataInFSC(List<sObject> sobjList ,String authId,
           
     }     
     else{
+        oldnewList[i]=new Manage_Id__c();
         oldnewList[i].Old_id__c=oldids[i].id;
         oldnewList[i].Object_setup_name__c=objectsetupname;
         
