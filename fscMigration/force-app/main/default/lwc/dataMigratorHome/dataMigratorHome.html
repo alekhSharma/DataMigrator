@@ -1,8 +1,8 @@
 <template>
       <article class="slds-card">
       <div class="slds-card__body slds-card__body_inner" style="padding-top: .5rem">
-            <div class="slds-list_horizontal" style="height: 45vh;">
-
+            <!-- <div class="slds-list_horizontal" style="height: 45vh;"> -->
+                  <div class="slds-list_horizontal">   
                   <div class="demo-only slds-box " style="width:20%;background-color:#FAFAFB;margin-top: 6px;margin-right: 4px;margin-bottom: 4px;margin-left: 4px;">
                      <nav class="slds-nav-vertical slds-nav-vertical_shade" aria-label="Sub page">
                          <div class="slds-nav-vertical__section">
@@ -21,7 +21,35 @@
                   </div>
                     <!-- main window content start-->
                   <div style="width:80%;background-color:white" >
-                     <c-data-migrator-main></c-data-migrator-main>
+                     <!-- <c-data-migrator-main></c-data-migrator-main> -->
+                     <!-- table code start -->
+                     <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                          <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Opportunity Name">Source Org Object</div>
+                            </th>
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Account Name">Target Org</div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <template for:each={mappingObjLst}  for:item="obj">
+                          <tr class="slds-hint-parent" key={obj.label}>
+                            <td data-label="Account Name">
+                              <div class="slds-truncate" title="Cloudhub">{obj.label}</div>
+                            </td>
+                            <td data-label="Close Date">
+                              <!-- <div class="slds-truncate" title="4/14/2015">{obj.mapping}</div> -->
+                              <lightning-combobox name="progress" variant="label-hidden" value={obj.mapping} placeholder="Select Object" options={options} onchange={handleChange} ></lightning-combobox>
+                            </td>
+                          </tr>
+                        </template>
+                        </tbody>
+                      </table>   
+
+                     <!-- table code end -->
                   </div>    
                     <!-- main window content end-->
 
