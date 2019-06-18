@@ -3,7 +3,8 @@ import getSalesforceOrgLst from '@salesforce/apex/DataMigratorHome.getConnetecSa
 import validateConnection from '@salesforce/apex/DataMigratorHome.validateConnection';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
-import migrateObjectData from '@salesforce/apex/MigrateObject.migrateObjectDataInFSC';
+import getFSLObjects from '@salesforce/apex/DataMigratorHome.getFSLObjects';import migrateObjectData from '@salesforce/apex/MigrateObject.migrateObjectDataInFSC';
+
 
 export default class DataMigratorHome extends LightningElement {
     
@@ -22,6 +23,10 @@ export default class DataMigratorHome extends LightningElement {
 
     @track connectedSalesforceOrgId;
     @track connectedSalesforceOrgName;
+
+    @track mappingObjLst = [];
+    @track value = 'inProgress';
+    @track options;
 
     newConnection(){
         this.openmodal = true;
@@ -97,14 +102,39 @@ export default class DataMigratorHome extends LightningElement {
         this.openmodal = false;
     }
 
-    migrate(){
-        migrateObjectData({objectName:this.objectName ,FieldsName : this.FieldsName}).then(result=>{
-            if(result){
-
-            }else{
-
+    openSelectedOrg(event){
+        console.log('Open selected org ');
+        console.log(event.target.parentNode.className);
+        this.connectedSalesforceOrgId = event.target.parentNode.className;
+        getFSLObjects({salesforceOrgId : this.connectedSalesforceOrgId})
+        .then(result =>{
+            console.log('response @@@ ');
+            console.log(result.stdObjectLst);
+            console.log(result.fslPickList);
+            let i;
+            for( i = 0 ; i< result.stdObjectLst.length ; i++){
+                let stdobj = {label:result.stdObjectLst[i],mapping:'none'};
+                this.mappingObjLst.push(stdobj);
             }
+            this.options = result.fslPickList;
+            // console.log(this.mappingObjLst);  
         })
+        .catch(error => {
+            console.log(error);
+        });
+
+    }
+
+    // get options() {
+    //     return [
+    //         { label: 'New', value: 'new' },
+    //         { label: 'In Progress', value: 'inProgress' },
+    //         { label: 'Finished', value: 'finished' },
+    //     ];
+    // }
+
+    handleChange(event) {
+        this.value = event.detail.value;
     }
 
 }
