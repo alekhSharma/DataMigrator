@@ -3,13 +3,16 @@ import getSalesforceOrgLst from '@salesforce/apex/DataMigratorHome.getConnetecSa
 import validateConnection from '@salesforce/apex/DataMigratorHome.validateConnection';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
-import getFSLObjects from '@salesforce/apex/DataMigratorHome.getFSLObjects';
+import getFSLObjects from '@salesforce/apex/DataMigratorHome.getFSLObjects';import migrateObjectData from '@salesforce/apex/MigrateObject.migrateObjectDataInFSC';
+
 
 export default class DataMigratorHome extends LightningElement {
     
     @wire(getSalesforceOrgLst)
     salesforceOrgLst;
 
+    @track objectName;
+    @track FieldsName;
     @track openmodal = false;
     @track orgName;
     @track userName;
@@ -133,4 +136,5 @@ export default class DataMigratorHome extends LightningElement {
     handleChange(event) {
         this.value = event.detail.value;
     }
+
 }
