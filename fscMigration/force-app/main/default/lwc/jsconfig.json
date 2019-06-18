@@ -5,8 +5,8 @@
             "c/dataMigratorHome": [
                 "dataMigratorHome/dataMigratorHome.js"
             ],
-            "c/DataMigratorHome": [
-                "DataMigratorHome/DataMigratorHome.js"
+            "c/dataMigratorMain": [
+                "dataMigratorMain/dataMigratorMain.js"
             ]
         },
         "experimentalDecorators": true
