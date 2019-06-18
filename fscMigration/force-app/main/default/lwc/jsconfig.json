@@ -7,9 +7,6 @@
             ],
             "c/dataMigratorMain": [
                 "dataMigratorMain/dataMigratorMain.js"
-            ],
-            "c/setupTab": [
-                "setupTab/setupTab.js"
             ]
         },
         "experimentalDecorators": true
