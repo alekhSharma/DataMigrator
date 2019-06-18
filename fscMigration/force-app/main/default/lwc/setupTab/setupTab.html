@@ -1,0 +1,46 @@
+<template>
+    <lightning-accordion allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Mapped Object Details">
+            <div class="slds-align_absolute-center slds-text-align_center">
+                <div style="width:100%;background-color:white">
+                    <!-- table code start -->
+                    <table class="slds-table slds-table_cell-buffer slds-table_col-bordered">
+                        <thead style="text-align: center;">
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Opportunity Name">Source Org Object</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Account Name">Target Org Object</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={displayresult} for:item="result">
+                                <tr class="slds-hint-parent" key={result.Name}>
+
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title={result.Name}>{result.Name}</div>
+                                    </td>
+                                    <td data-label="Close Date">
+                                        <div class="slds-truncate" title={result.Destination_Object_Name__c}>{result.Destination_Object_Name__c}</div>
+                                    </td>
+
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <!-- table code end -->
+                </div>
+            </div>
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="B" label="Unmapped Source Object Details">
+            <p>This is the content area for section B.</p>
+        </lightning-accordion-section>
+
+        <lightning-accordion-section name="C" label="Unmapped Destination Object Details">
+            <p>This is the content area for section C.</p>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>
