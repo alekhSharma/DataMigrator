@@ -7,8 +7,7 @@ public Class ObjectFieldSetup{
     * Parameter : Id for SalesforceOrg__C record  
     * return : Map with source object api name and dest object api name. 
     */
-<<<<<<< HEAD
-
+    @AuraEnabled
         SalesforceOrg__c salesforceorg = new SalesforceOrg__c();
         if(salesforceOrgId != null){
             salesforceorg = [SELECT UserName__c,
