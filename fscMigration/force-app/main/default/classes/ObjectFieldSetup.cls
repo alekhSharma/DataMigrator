@@ -7,12 +7,7 @@ public Class ObjectFieldSetup{
     * Parameter : Id for SalesforceOrg__C record  
     * return : Map with source object api name and dest object api name. 
     */
-    @AuraEnabled
-=======
-
-    @AuraEnabled(cacheable=true)
->>>>>>> 39a621c528a4eacde0011dff65c97e3cbee0e2d3
-    public static ObjectFieldSetup.ObjectSetUpWrapper getObjectSetupWrapper(String salesforceOrgId){
+<<<<<<< HEAD
 
         SalesforceOrg__c salesforceorg = new SalesforceOrg__c();
         if(salesforceOrgId != null){
