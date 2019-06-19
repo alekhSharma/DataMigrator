@@ -13,6 +13,12 @@ public Class ObjectFieldSetup{
 
     @AuraEnabled(cacheable=true)
 >>>>>>> 39a621c528a4eacde0011dff65c97e3cbee0e2d3
+<<<<<<< HEAD
+    @AuraEnabled
+=======
+
+    @AuraEnabled(cacheable=true)
+>>>>>>> 39a621c528a4eacde0011dff65c97e3cbee0e2d3
     public static ObjectFieldSetup.ObjectSetUpWrapper getObjectSetupWrapper(String salesforceOrgId){
 
         SalesforceOrg__c salesforceorg = new SalesforceOrg__c();
