@@ -7,6 +7,7 @@ public Class ObjectFieldSetup{
     * Parameter : Id for SalesforceOrg__C record  
     * return : Map with source object api name and dest object api name. 
     */
+    @AuraEnabled
     public static ObjectFieldSetup.ObjectSetUpWrapper getObjectSetupWrapper(String salesforceOrgId){
 
         SalesforceOrg__c salesforceorg = new SalesforceOrg__c();
@@ -148,8 +149,8 @@ public Class ObjectFieldSetup{
 
 
     public Class ObjectSetUpWrapper{
-        public List<Object_setup__c> mappedLst;
-        public List<Object_setup__c> sourceunmappedLst;
-        public List<Object_setup__c> destunmappedLst;
+        @AuraEnabled public List<Object_setup__c> mappedLst;
+        @AuraEnabled public List<Object_setup__c> sourceunmappedLst;
+        @AuraEnabled public List<Object_setup__c> destunmappedLst;
     }
 }
