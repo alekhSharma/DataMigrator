@@ -7,7 +7,10 @@ public Class ObjectFieldSetup{
     * Parameter : Id for SalesforceOrg__C record  
     * return : Map with source object api name and dest object api name. 
     */
+
     @AuraEnabled
+    public static ObjectFieldSetup.ObjectSetUpWrapper getObjectSetupWrapper(String salesforceOrgId){
+
         SalesforceOrg__c salesforceorg = new SalesforceOrg__c();
         if(salesforceOrgId != null){
             salesforceorg = [SELECT UserName__c,
@@ -93,7 +96,7 @@ public Class ObjectFieldSetup{
         }else{
             System.debug('Failed to fetch access token');
         }
-    } //end Access Token
+    }
 
     public static Map<String,String> getSourceObjects(){
 
@@ -110,8 +113,7 @@ public Class ObjectFieldSetup{
             
         }//end of for
         return sourceapi_labelObjectMap;
-    } //End Source Object Fetch
-
+    }
 
     public static Map<String,String> getFslObjects(){
         Map<String,String> destapi_labelObjectMap = new Map<String,String>();
@@ -144,131 +146,6 @@ public Class ObjectFieldSetup{
 
 
         return destapi_labelObjectMap;
-    } //end FSL Object Fetch
-
-    //Begin FieldSetup Wrapper 
-
-    public static ObjectFieldSetup.FieldtSetUpWrapper getFieldSetUpWrapper(String salesforceOrgId){
-
-          SalesforceOrg__c salesforceorg = new SalesforceOrg__c();
-        if(salesforceOrgId != null){
-            salesforceorg = [SELECT UserName__c,
-                                    Password__c,
-                                    Consumer_Key__c,
-                                    Consumer_Secret__c,
-                                    Type_Of_Org_Is_Sandbox__c
-                             FROM  SalesforceOrg__c
-                             WHERE id =:salesforceOrgId 
-                             LIMIT 1];
-            //String accessToken = getAccessToken(salesforceorg);                 
-            populateAccessTokenandInsturl(salesforceorg);// to populate the class variables
-            Map<String,String> sourceapi_labelFieldMap = getSourceFields('sourceobjecapiname');
-            Map<String,String> destapi_labelFieldMap = getFslFields('destinationobjectapiname');
-
-            List<Field_setup__c> mappedLst = new List<Field_setup__c>();
-            List<Field_setup__c> sourceunmappedLst = new List<Field_setup__c>();
-            List<Field_setup__c> destunmappedLst = new List<Field_setup__c>();
-
-            for(String objapiname : sourceapi_labelFieldMap.keySet()){
-                if(destapi_labelFieldMap.containsKey(objapiname)){
-                   Field_setup__c mappedtemp =new Field_setup__c();
-                   mappedtemp.Source_Object_Name__c=sourceapi_labelFieldMap.get(objapiname);
-                   mappedtemp.Souce_Field_Api_Name__c=objapiname;
-                   mappedtemp.Destination_Field_Name__c=objapiname;
-                   mappedtemp.Destination_Field_Api_Name__c=destapi_labelFieldMap.get(objapiname);
-                   mappedtemp.Object_setup_name__c=salesforceOrgId;
-                   mappedLst.add(mappedtemp);
-                   destapi_labelFieldMap.remove(objapiname);
-                
-                }else{
-
-                   Field_setup__c mappedtemp =new Field_setup__c();
-                   mappedtemp.Source_Object_Name__c=sourceapi_labelFieldMap.get(objapiname);
-                   mappedtemp.Souce_Field_Api_Name__c=objapiname;
-                   mappedtemp.Destination_Field_Name__c='';
-                   mappedtemp.Destination_Field_Api_Name__c='';
-                   mappedtemp.Object_setup_name__c=salesforceOrgId;
-                   sourceunmappedLst.add(mappedtemp);
-                    
-                }    
-            }
-
-            for(String objapiname : destapi_labelFieldMap.keySet()){
-                 Field_setup__c mappedtemp =new Field_setup__c();
-                   mappedtemp.Source_Object_Name__c='';
-                   mappedtemp.Souce_Field_Api_Name__c='';
-                   mappedtemp.Destination_Field_Name__c=objapiname;
-                   mappedtemp.Destination_Field_Api_Name__c=destapi_labelFieldMap.get(objapiname);
-                   mappedtemp.Object_setup_name__c=salesforceOrgId;
-                   destunmappedLst.add(mappedtemp);
-            }
-
-            FieldtSetUpWrapper fldwrapper = new FieldtSetUpWrapper();
-            fldwrapper.mappedLst = mappedLst;
-            fldwrapper.sourceunmappedLst = sourceunmappedLst;
-            fldwrapper.destunmappedLst = destunmappedLst;    
-            return fldwrapper;
-           
-
-        }//end of salesforceorgid null check     
-
-        return null;
-
-    } //End FieldSetup Wrapper
-
-
-    public static Map<String,String> getSourceFields(String sourceobjecapiname){
-
-        Map<String,String> sourceapi_labelfieldMap = new Map<String,String>();
-
-        
-        Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(sourceobjecapiname).getDescribe().fields.getMap();
-        
-        for (String fieldName: fieldMap.keySet()) {
-           //System.debug('##Field API Name='+fieldName);// list of all field API name
-           //System.debug('field name label'+fieldMap.get(fieldName).getDescribe().getLabel());//It provides to get the object fields label.
-            sourceapi_labelfieldMap.put(fieldName,fieldMap.get(fieldName).getDescribe().getLabel());
-
-        }
-            
-        }//end of for
-        return sourceapi_labelfieldMap;
-    } // End source Field Fetch
-
-    public static Map<String,String> getFslFields(String destinationobjectapiname){
-        Map<String,String> destapi_labelFieldMap = new Map<String,String>();
-
-        System.debug('Access token @@@ ' + access_Token);
-        System.debug('Instance url @@@ ' + instanceUrl);
-
-        String endpoint = instanceUrl + '/services/data/v45.0/sobjects/Account/describe';
-        HTTPRequest req = new HTTPRequest();
-        req.setEndpoint(endpoint);
-        req.setMethod('GET');
-        req.setHeader('Authorization', 'Bearer ' + access_Token);
-        req.setHeader('Content-Type', 'application/json');
-        Http ht = new Http();
-        HttpResponse responseobjects = ht.send(req);
-        System.debug('Response body code @@@ ' + responseobjects.getBody());
-        
-        Map<String,Object> responseMap = (Map<String,Object>)JSON.deserializeUntyped(responseobjects.getBody());
-        List<Object> objectLst = (List<Object>)responseMap.get('fields');
-        Map<String,Object> responseMap = (Map<String,Object>)JSON.deserializeUntyped(responseobjects.getBody());
-        List<Object> objectLst = (List<Object>)responseMap.get('fields');
-		System.debug('Response body code @@@ ' + objectLst);
- 		for(Object obj : objectLst){
-            Map<String,Object> objinfo = (Map<String,Object>)obj;
-            destapi_labelFieldMap.put(objinfo.get('name'),objinfo.get('label'));
-        }
-
-
-        return destapi_labelFieldMap;
-    } //End FSL Field Fetch
-
-    public Class FieldtSetUpWrapper{
-        public List<Field_setup__c> mappedLst;
-        public List<Field_setup__c> sourceunmappedLst;
-        public List<Field_setup__c> destunmappedLst;
     }
 
 
